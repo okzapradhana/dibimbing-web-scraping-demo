@@ -1,10 +1,8 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.wait import WebDriverWait
-from init_driver import init
-import pandas_gbq
+from helpers import init, write_to_bigquery
 import pandas as pd
-from google.oauth2 import service_account
 import time
 
 DATASET_ID = "dibimbing_de_batch2" # NOTE: use underscore, don't use dash (-)
@@ -73,14 +71,8 @@ def main(driver_path: str, path_to_visit: str, keyword: str, creds_path: str):
         "address": location_addresses,
         "keyword": [keyword for _ in range(len(location_names))]
     })
-    write_to_bigquery(df, creds_path)
+    write_to_bigquery(df, DATASET_ID, TABLE_ID, creds_path)
     print(f"Successfully write to {DATASET_ID}.{TABLE_ID}!")
-
-def write_to_bigquery(df: pd.DataFrame, creds_path: str):
-    # NOTE: please refer to this docs for writing to BigQuery
-    # https://googleapis.dev/python/pandas-gbq/latest/writing.html
-    creds = service_account.Credentials.from_service_account_file(creds_path)
-    pandas_gbq.to_gbq(df, f"{DATASET_ID}.{TABLE_ID}", credentials=creds, if_exists="replace")
 
 
 driver_path = "chromedriver_mac64/chromedriver"

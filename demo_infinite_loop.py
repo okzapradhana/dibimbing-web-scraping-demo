@@ -1,7 +1,7 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 import time
-from init_driver import init
+from helpers import init
 
 def main(driver_path: str, path_to_visit: str):
     # NOTE: FOR EASINESS PURPOSES ON COLLAB, UNCOMMENT THIS LINE AND COMMENT THE LINES BELOW

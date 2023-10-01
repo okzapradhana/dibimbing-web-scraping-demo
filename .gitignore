@@ -3,3 +3,4 @@ __pycache__
 *.zip
 chrome*
 creds
+.DS_Store
